@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>It's Shopping Time</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav input {
+            padding: 5px;
+        }
+
+        .banner {
+            text-align: center;
+            background-color: #f4f4f4;
+            padding: 50px 0;
+        }
+
+        .banner h1 {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .banner p {
+            font-style: italic;
+            font-size: 20px;
+            color: #666;
+        }
+
+        .products, .payment {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .products h2, .payment h2 {
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: #333;
+        }
+
+        .product-list {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            width: 200px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            margin-bottom: 10px;
+        }
+
+        .product h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        .product p {
+            font-size: 16px;
+            margin-bottom: 10px;
+            color: #666;
+        }
+
+        .product button {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .product button:hover {
+            background-color: #555;
+        }
+
+        .payment-options {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .payment-option {
+            background-color: #fff;
+            padding: 20px;
+            margin: 10px;
+            border-radius: 5px;
+            width: 200px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .payment-option h3 {
+            margin-bottom: 10px;
+        }
+
+        .payment-status {
+            display: none;
+            margin-top: 20px;
+            font-size: 18px;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .product-list, .payment-options {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+        }
+
+        /* Help Center section styling */
+        .help-center {
+            padding: 20px;
+            background-color: #f9f9f9;
+            text-align: center;
+        }
+
+        .help-center h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .help-center p {
+            font-size: 18px;
+            color: #333;
+        }
+
+        .faq {
+            margin-top: 20px;
+            text-align: left;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .faq h4 {
+            margin-top: 15px;
+            font-size: 20px;
+        }
+
+        .faq p {
+            margin-left: 15px;
+            font-size: 16px;
+        }
+    </style>
+    <script>
+        function showSection(section) {
+            document.querySelector('.banner').style.display = 'none';
+            document.querySelector('.products').style.display = 'none';
+            document.querySelector('.help-center').style.display = 'none';
+            document.querySelector('.payment').style.display = 'none';
+
+            if (section === 'home') {
+                document.querySelector('.banner').style.display = 'block';
+            } else if (section === 'shop') {
+                document.querySelector('.products').style.display = 'block';
+            } else if (section === 'help') {
+                document.querySelector('.help-center').style.display = 'block';
+            } else if (section === 'payment') {
+                document.querySelector('.payment').style.display = 'block';
+            }
+        }
+
+        function searchSection() {
+            const searchInput = document.getElementById('searchBar').value.toLowerCase();
+            if (searchInput === 'home') {
+                showSection('home');
+            } else if (searchInput === 'shop') {
+                showSection('shop');
+            } else if (searchInput === 'help center') {
+                showSection('help');
+            } else if (searchInput === 'payment') {
+                showSection('payment');
+            } else {
+                alert('No matching section found. Please try "Home," "Shop," "Help Center," or "Payment."');
+            }
+        }
+
+        function showPaymentStatus(method) {
+            const statusElement = document.querySelector('.payment-status');
+            switch(method) {
+                case 'gcash':
+                    statusElement.innerText = 'You have chosen GCash. Please follow the instructions in your GCash app to complete the payment.';
+                    break;
+                case 'cod':
+                    statusElement.innerText = 'You have chosen Cash on Delivery. Please prepare the exact amount when your order arrives.';
+                    break;
+                case 'bank':
+                    statusElement.innerText = 'You have chosen Bank Transfer. Please ensure to transfer the amount to our bank account.';
+                    break;
+                default:
+                    statusElement.innerText = '';
+            }
+            statusElement.style.display = 'block';
+        }
+
+        window.onload = function() {
+            showSection('home'); // Show home section by default
+        };
+    </script>
+</head>
+<body>
+
+    <!-- Header section -->
+    <header>
+        <div class="logo">Trend Nest</div>
+        <nav>
+            <ul>
+                <li><a href="javascript:void(0);" onclick="showSection('home')">Home</a></li>
+                <li><a href="javascript:void(0);" onclick="showSection('shop')">Shop</a></li>
+                <li><a href="javascript:void(0);" onclick="showSection('help')">Help Center</a></li>
+                <li><a href="javascript:void(0);" onclick="showSection('payment')">Payment</a></li>
+            </ul>
+            <input type="text" id="searchBar" placeholder="Search..." />
+            <button onclick="searchSection()">Search</button>
+        </nav>
+    </header>
+    
+
+    <!-- Banner section -->
+    <section class="banner">
+        <h1>Welcome to Trend Nest Shop</h1>
+        <h2>Did you know?</h2>
+        <p><strong>TrendNest</strong> is your go-to destination for the latest fashion trends, offering a curated selection of stylish clothing, shoes, and heels for both men and women. </p>
+    </section>
+
+    <!-- Products section -->
+    <section class="products" style="display: none;">
+        <h2>Our Collection</h2>
+        <div class="product-list">
+            <div class="product">
+    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzLyggnYu5nKOUr4CmwFDQ5aIhxy5rs8lbzQ&usqp=CAU" alt="Elegant Dress">
+    <h3>Elegant Dress</h3>
+    <p>300.00 PESOS</p>
+    <button>Buy Now</button>
+    <button>Add to Cart</button>
+</div>
+
+            <div class="product">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVBEtUJ6GXt8H0xw7VEpbyWfkwd7YcYmIiOA&s" alt="Summer Dress">
+                <h3>Summer Dress</h3>
+                <p>250.00 PESOS</p>
+                <button>Buy Now</button>
+                <button>Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRt4QO2Qw3SKj2XpEgSQKiiH-UuAMyP_1-rm32z_p5jlaSPUjqAuolqiLc&s=10" alt="Crop tops women">
+                <h3>Croptops</h3>
+                <p>150.00 PESOS</p>
+                <button>Buy Now</button>
+                <button>Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkfzs-MRnQY7xZcZnkdxpDoKc3CI1Nby6QKw&usqp=CAU" alt="Stylish Blouse">
+                <h3>Stylish Blouse</h3>
+                <p>150.00 PESOS</p>
+                <button>Buy Now</button>
+                <button>Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRT0DPQfsN_bHk0IQjzvtYkKzTgGwjQhAmo5EQLfNRX8rqjydJuqi0r4L5B&s=10" alt="Skinny Jeans">
+                <h3>Skinny Jeans</h3>
+                <p>150.00 PESOS</p>
+                <button>Buy Now</button>
+                <button>Add to Cart</button>
+            </div>  
+                <div class="product">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQM4nSNtrD7HqSgcGBJR3UUJTMEu3l-CHSyY4uJwDJxmVUokC488SyyCfo&s=10" alt="Trousers for women">
+                <h3>Trousers</h3>  
+                <p> 100.00 PESOS EACH</p> 
+                <button>Buy Now</button>
+                <button>Add to Cart</button>                    
+            </div>
+            <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBiGXDG6atrXWolLTTOh_RvwU1qbllDcj-aYnvnU0Je4bvbXJFoMebDLL2&s=10" alt="Heels">
+            <h3>Heels</h3>
+            <p> 300.00 PESOS</p>
+            <button>Buy Now</button>
+            <button>Add to Cart</button>
+        </div>
+            <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRTQn0_jc7-DDOLZ-plId4p-39qBphlw8yWww&s" alt="Loafers for men">
+            <h3>Loafers for men</h3>
+            <p>250.00 PESOS</p>
+            <button>Buy Now</button>
+           <button>Add to Cart</button>
+       </div>
+            <div class="product">
+             <img src="https://img.ws.mms.shopee.ph/ph-11134207-7r98u-llblhhdmltqbd2" alt= "Polo for men">
+             <h3>Polo</h3>
+             <p>150.00 PESOS</p>
+             <button>Buy Now</button>
+             <button>Add to Cart</button>
+      </div>
+            <div class="product">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSHR0pG0nhgWQ27SZNaUAj9U098GGLwwnLDj4vr6Y7RgBWNykvV_isa7eSg&s=10" alt="Trousers for men">
+            <h3>Trouser</h3>
+            <p>250.00 PESOS</p>
+            <button>Buy Now</button>
+            <button>Add to Cart</button>
+            </div>
+    </section>
+<script>
+        function goToPayment() {
+            window.location.href = "Gcash.html"; // https://m.gcash.com/gcash-login-web/index.html
+        }
+    </script>
+    <!-- Help Center section -->
+    <section class="help-center" style="display: none;">
+        <h3>Help Center</h3>
+        <p>Feel free to ask us any questions about our products or services.</p>
+        <div class="faq">
+            <h4>Q: How can I return or exchange items?</h4>
+            <p>A: Yes, you can return or exchange items within 30 days of purchase.</p>
+            <h4>Q: What are the shipping options?</h4>
+            <p>A: We offer standard and express shipping options. Standard shipping takes 3-5 business days, while express shipping delivers in 1-2 business days.</p>
+            <h4>Q: Do you ship internationally?</h4>
+            <p>A: Yes, we ship internationally. Shipping fees and delivery times vary depending on your location.</p>
+        <h4>Q: How can I track my order?</h4>
+        <p>A: Once your order is shipped, you will receive a tracking number via email. You can use this number to track your package on our website or through the courier's site.</p>
+
+        <h4>Q: What payment methods do you accept?</h4>
+        <p>A: We accept GCash, Cash on Delivery (COD), and Bank Transfer. You can choose your preferred payment method during checkout.</p>
+   
+        </div>
+    </section>
+
+    <!-- Payment section -->
+            
+    <section class="payment" style="display: none;">
+        <h2>Payment Methods</h2>
+        <div class="payment-options">
+            <div class="payment-option" onclick="showPaymentStatus('gcash')">
+                <h3>GCash</h3>
+                <p>Pay using the GCash app. Simply scan the QR code or enter our GCash number.</p>
+            </div>
+            <div class="payment-option" onclick="showPaymentStatus('cod')">
+                <h3>Cash on Delivery</h3>
+                <p>Pay in cash when your order is delivered. Please prepare the exact amount.</p>
+            </div>
+            <div class="payment-option" onclick="showPaymentStatus('bank')">
+                <h3>Bank Transfer</h3>
+                <p>Transfer the amount to our bank account before delivery. Please keep the receipt for confirmation.</p>
+            </div>
+        </div>
+        <div class="payment-status"></div>
+    </section>
+
+    <!-- Footer section -->
+    <footer>
+        <p>&copy; 2024 Trend Nest. All rights reserved.</p>
+    </footer>
+            
+            <script>
+        
+    document.getElementById('buyNow').onclick = function() {
+        document.getElementById('paymentMethods').style.display = 'block';
+    }
+        
+
+    document.getElementById('addToCart').onclick = function() {
+        document.getElementById('paymentMethods').style.display = 'block';
+    }
+
+    document.getElementById('gcash').onclick = function() {
+        document.getElementById('paymentImages').style.display = 'block';
+    }
+
+    document.getElementById('cod').onclick = function() {
+        document.getElementById('paymentImages').style.display = 'block';
+    }
+
+    document.getElementById('bankTransfer').onclick = function() {
+        document.getElementById('paymentImages').style.display = 'block';
+    }
+
+</body>
+</html>
